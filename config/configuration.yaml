@@ -1,15 +1,36 @@
 homeassistant:
-  name: Home
-  latitude: !secret home_latitude
-  longitude: !secret home_longitude
-  elevation: !secret home_elevation
+  name: Casa
+  latitude: -12.950950
+  longitute: -38.459293
   time_zone: America/Bahia
   customize: !include misc/customize.yaml
   auth_providers:
    - type: homeassistant
 
 mqtt:
-  broker: !secret mqtt_ip_address
-  username: !secret mqtt_username
-  password: !secret mqtt_password
+  broker: mosquitto-ext
+  port: 1883
+  username: test
+  password: test
 
+device_tracker:
+   - platform: owntracks
+     max_gps_accuracy: 200
+     waypoints: true
+     mqtt_topic: "owntracks/"
+
+light:
+  - platform: flux_led
+    automatic_add: true
+
+automation:
+  - alias: 'Leave Home notification'
+    trigger:
+      platform: zone
+      event: leave
+      zone: zone.home
+      entity_id: device_tracker.josemar_s10_s10
+    action:
+      service: notify.notify
+      data:
+        message: 'Jose left the house'
