@@ -27,8 +27,8 @@ automation:
   - alias: 'Leave Home notification'
     trigger:
       platform: zone
-      event: leave
-      zone: zone.home
+      event: enter
+      zone: zone.casa
       entity_id: device_tracker.josemar_s10_s10
     action:
       service: notify.notify
